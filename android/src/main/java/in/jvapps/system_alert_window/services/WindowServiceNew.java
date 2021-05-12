@@ -202,17 +202,63 @@ public class WindowServiceNew extends Service implements View.OnTouchListener {
                 .setAllCornerSizes(radius)
                 .build();
         myImage.setShapeAppearanceModel(shapeAppearanceModel);
-
-//        myImage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = getPackageManager().getLaunchIntentForPackage("in.jvapps.system_alert_window_example");
-//                if (intent != null) {
-//                    startActivity(intent);
-//                }
-//            }
-//        });
         windowView.addView(myImage);
+
+        myImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = getPackageManager().getLaunchIntentForPackage("in.jvapps.system_alert_window_example");
+                if (intent != null) {
+                    startActivity(intent);
+                }
+            }
+        });
+        myImage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (null != wm) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        WindowManager.LayoutParams params = (WindowManager.LayoutParams) windowView.getLayoutParams();
+                        initialX = params.x;
+                        initialY = params.y;
+                        //get the touch location
+                        initialTouchX = event.getRawX();
+                        initialTouchY = event.getRawY();
+
+                        float x = event.getRawX();
+                        float y = event.getRawY();
+                        moving = false;
+                        int[] location = new int[2];
+                        windowView.getLocationOnScreen(location);
+                        originalXPos = location[0];
+                        originalYPos = location[1];
+                        offsetX = originalXPos - x;
+                        offsetY = originalYPos - y;
+
+                    } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+
+                        WindowManager.LayoutParams params = (WindowManager.LayoutParams) windowView.getLayoutParams();
+
+//                int newX = (int) (offsetX + event.getRawX());
+//                int newY = (int) (offsetY + event.getRawY());
+//                if (Math.abs(newX - originalXPos) < 1 && Math.abs(newY - originalYPos) < 1) {
+//                    return false;
+//                }
+//                params.x = newX;
+//                params.y = newY;
+
+                        params.x = initialX + (int)(event.getRawX() - initialTouchX);
+                        params.y = initialY + (int)(event.getRawY() - initialTouchY);
+
+                        wm.updateViewLayout(windowView, params);
+                        moving = true;
+                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                        return moving;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     private void createWindow(HashMap<String, Object> paramsMap) {
@@ -251,11 +297,23 @@ public class WindowServiceNew extends Service implements View.OnTouchListener {
         }
     }
 
+    private int initialX = 0;
+    private int initialY = 0;
+    private float initialTouchX = 0f;
+    private float initialTouchY = 0f;
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         if (null != wm) {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                WindowManager.LayoutParams params = (WindowManager.LayoutParams) windowView.getLayoutParams();
+                initialX = params.x;
+                initialY = params.y;
+                //get the touch location
+                initialTouchX = event.getRawX();
+                initialTouchY = event.getRawY();
+
                 float x = event.getRawX();
                 float y = event.getRawY();
                 moving = false;
@@ -265,17 +323,22 @@ public class WindowServiceNew extends Service implements View.OnTouchListener {
                 originalYPos = location[1];
                 offsetX = originalXPos - x;
                 offsetY = originalYPos - y;
+
             } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-                float x = event.getRawX();
-                float y = event.getRawY();
+
                 WindowManager.LayoutParams params = (WindowManager.LayoutParams) windowView.getLayoutParams();
-                int newX = (int) (offsetX + x);
-                int newY = (int) (offsetY + y);
-                if (Math.abs(newX - originalXPos) < 1 && Math.abs(newY - originalYPos) < 1) {
-                    return false;`
-                }
-                params.x = newX;
-                params.y = newY;
+
+//                int newX = (int) (offsetX + event.getRawX());
+//                int newY = (int) (offsetY + event.getRawY());
+//                if (Math.abs(newX - originalXPos) < 1 && Math.abs(newY - originalYPos) < 1) {
+//                    return false;
+//                }
+//                params.x = newX;
+//                params.y = newY;
+
+                params.x = initialX + (int)(event.getRawX() - initialTouchX);
+                params.y = initialY + (int)(event.getRawY() - initialTouchY);
+
                 wm.updateViewLayout(windowView, params);
                 moving = true;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
