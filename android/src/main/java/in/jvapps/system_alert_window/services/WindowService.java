@@ -210,7 +210,7 @@ public class WindowService extends JobIntentService implements View.OnTouchListe
         windowView = new LinearLayout(mContext);
         windowView.setOrientation(LinearLayout.VERTICAL);
         windowView.setBackgroundColor(Color.WHITE);
-        windowView.setLayoutParams(params);
+//        windowView.setLayoutParams(params);
         windowView.removeAllViews();
         windowView.addView(headerView);
         if (bodyView != null)
@@ -262,7 +262,7 @@ public class WindowService extends JobIntentService implements View.OnTouchListe
                 params.x = newX;
                 params.y = newY;
                 wm.updateViewLayout(windowView, params);
-                moving = true;
+                moving = false;
             } else if (event.getAction() == MotionEvent.ACTION_UP) {
                 return moving;
             }

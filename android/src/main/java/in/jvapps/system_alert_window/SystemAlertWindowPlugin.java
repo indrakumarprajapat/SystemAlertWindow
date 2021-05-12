@@ -143,17 +143,20 @@ public class SystemAlertWindowPlugin extends Activity implements MethodCallHandl
                 result.success(true);
                 break;
             case "updateSystemWindow":
-                assert (call.arguments != null);
-                List updateArguments = (List) call.arguments;
-                String updateTitle = (String) updateArguments.get(0);
-                String updateBody = (String) updateArguments.get(1);
-                HashMap<String, Object> updateParams = (HashMap<String, Object>) updateArguments.get(2);
-                prefMode = (String) updateArguments.get(3);
-                if (prefMode == null) {
-                    prefMode = "default";
-                }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && isBubbleMode(prefMode)) {
-                    if (checkPermission(false)) {
+                if (checkPermission()) {
+                    assert (call.arguments != null);
+                    List updateArguments = (List) call.arguments;
+                    String updateTitle = (String) updateArguments.get(0);
+                    String updateBody = (String) updateArguments.get(1);
+                    HashMap<String, Object> updateParams = (HashMap<String, Object>) updateArguments.get(2);
+                    String prefMode = (String) updateArguments.get(3);
+                    if(prefMode == null){
+                        prefMode = "default";
+                    }
+                    boolean isPreferOverlay = "overlay".equalsIgnoreCase(prefMode);
+                    boolean isPreferBubble = Commons.isForceAndroidBubble(mContext) ||
+                            (!isPreferOverlay && ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && "bubble".equalsIgnoreCase(prefMode)) || Build.VERSION.SDK_INT >= Build.VERSION_CODES.R));
+                    if (isPreferBubble) {
                         Log.d(TAG, "Going to update Bubble");
                         NotificationHelper.getInstance(mContext).dismissNotification();
                         showBubble(updateTitle, updateBody, updateParams);

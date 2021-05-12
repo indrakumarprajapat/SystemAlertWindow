@@ -45,7 +45,7 @@ public class BodyView {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         Commons.setMargin(context, params, bodyMap);
-        linearLayout.setLayoutParams(params);
+//        linearLayout.setLayoutParams(params);
         Padding padding = UiBuilder.getPadding(context, bodyMap.get(KEY_PADDING));
         linearLayout.setPadding(padding.getLeft(), padding.getTop(), padding.getRight(), padding.getBottom());
         @SuppressWarnings("unchecked")
@@ -65,7 +65,7 @@ public class BodyView {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         Commons.setMargin(context, params, rowMap);
-        linearLayout.setLayoutParams(params);
+//        linearLayout.setLayoutParams(params);
         linearLayout.setGravity(Commons.getGravity((String) rowMap.get(KEY_GRAVITY), Gravity.START));
         Padding padding = UiBuilder.getPadding(context, rowMap.get(KEY_PADDING));
         linearLayout.setPadding(padding.getLeft(), padding.getTop(), padding.getRight(), padding.getBottom());
@@ -91,7 +91,7 @@ public class BodyView {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
         Commons.setMargin(context, params, columnMap);
-        columnLayout.setLayoutParams(params);
+//        columnLayout.setLayoutParams(params);
         Padding padding = UiBuilder.getPadding(context, columnMap.get(KEY_PADDING));
         columnLayout.setPadding(padding.getLeft(), padding.getTop(), padding.getRight(), padding.getBottom());
         Decoration decoration = UiBuilder.getDecoration(context, columnMap.get(KEY_DECORATION));

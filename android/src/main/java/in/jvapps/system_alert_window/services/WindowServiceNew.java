@@ -16,11 +16,16 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+
+import com.google.android.material.imageview.ShapeableImageView;
+import com.google.android.material.shape.ShapeAppearanceModel;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -146,7 +151,7 @@ public class WindowServiceNew extends Service implements View.OnTouchListener {
     private WindowManager.LayoutParams getLayoutParams() {
         final WindowManager.LayoutParams params;
         params = new WindowManager.LayoutParams();
-        params.width = (windowWidth == 0) ? android.view.WindowManager.LayoutParams.MATCH_PARENT : Commons.getPixelsFromDp(mContext, windowWidth);
+        params.width = (windowWidth == 0) ? android.view.WindowManager.LayoutParams.WRAP_CONTENT : Commons.getPixelsFromDp(mContext, windowWidth);
         params.height = (windowHeight == 0) ? android.view.WindowManager.LayoutParams.WRAP_CONTENT : Commons.getPixelsFromDp(mContext, windowHeight);
         params.format = PixelFormat.TRANSLUCENT;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -174,8 +179,8 @@ public class WindowServiceNew extends Service implements View.OnTouchListener {
             windowView = new LinearLayout(mContext);
         }
         windowView.setOrientation(LinearLayout.VERTICAL);
-        windowView.setBackgroundColor(Color.WHITE);
-        windowView.setLayoutParams(params);
+//        windowView.setBackgroundColor(Color.RED);
+//        windowView.setLayoutParams(params);
         windowView.removeAllViews();
         windowView.addView(headerView);
         if (bodyView != null)
@@ -184,6 +189,30 @@ public class WindowServiceNew extends Service implements View.OnTouchListener {
             windowView.addView(footerView);
         if (isEnableDraggable)
             windowView.setOnTouchListener(this);
+        headerView.setVisibility(View.GONE);
+        bodyView.setVisibility(View.GONE);
+        footerView.setVisibility(View.GONE);
+
+        windowView.setLayoutParams(new LinearLayout.LayoutParams(70, 70));
+        ShapeableImageView myImage = new ShapeableImageView(this);
+        myImage.setImageResource(R.drawable.boomlogo);
+
+        float radius = getResources().getDimension(R.dimen.corner_radius);
+        ShapeAppearanceModel shapeAppearanceModel =  myImage.getShapeAppearanceModel().toBuilder()
+                .setAllCornerSizes(radius)
+                .build();
+        myImage.setShapeAppearanceModel(shapeAppearanceModel);
+
+//        myImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = getPackageManager().getLaunchIntentForPackage("in.jvapps.system_alert_window_example");
+//                if (intent != null) {
+//                    startActivity(intent);
+//                }
+//            }
+//        });
+        windowView.addView(myImage);
     }
 
     private void createWindow(HashMap<String, Object> paramsMap) {
@@ -196,12 +225,12 @@ public class WindowServiceNew extends Service implements View.OnTouchListener {
     }
 
     private void updateWindow(HashMap<String, Object> paramsMap) {
-        setWindowLayoutFromMap(paramsMap);
-        WindowManager.LayoutParams params = (WindowManager.LayoutParams) windowView.getLayoutParams();
-        params.width = (windowWidth == 0) ? android.view.WindowManager.LayoutParams.MATCH_PARENT : Commons.getPixelsFromDp(mContext, windowWidth);
-        params.height = (windowHeight == 0) ? android.view.WindowManager.LayoutParams.WRAP_CONTENT : Commons.getPixelsFromDp(mContext, windowHeight);
-        setWindowView(params, false);
-        wm.updateViewLayout(windowView, params);
+//        setWindowLayoutFromMap(paramsMap);
+//        WindowManager.LayoutParams params = (WindowManager.LayoutParams) windowView.getLayoutParams();
+//        params.width = (windowWidth == 0) ? android.view.WindowManager.LayoutParams.MATCH_PARENT : Commons.getPixelsFromDp(mContext, windowWidth);
+//        params.height = (windowHeight == 0) ? android.view.WindowManager.LayoutParams.WRAP_CONTENT : Commons.getPixelsFromDp(mContext, windowHeight);
+//        setWindowView(params, false);
+//        wm.updateViewLayout(windowView, params);
     }
 
     private void closeWindow(boolean isEverythingDone) {
@@ -242,8 +271,8 @@ public class WindowServiceNew extends Service implements View.OnTouchListener {
                 WindowManager.LayoutParams params = (WindowManager.LayoutParams) windowView.getLayoutParams();
                 int newX = (int) (offsetX + x);
                 int newY = (int) (offsetY + y);
-                if (Math.abs(newX - originalXPos) < 1 && Math.abs(newY - originalYPos) < 1 && !moving) {
-                    return false;
+                if (Math.abs(newX - originalXPos) < 1 && Math.abs(newY - originalYPos) < 1) {
+                    return false;`
                 }
                 params.x = newX;
                 params.y = newY;

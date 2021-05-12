@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -55,7 +56,7 @@ public class BubbleActivity extends AppCompatActivity {
         bubbleLayout.setBackgroundColor(Color.WHITE);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT);
-        bubbleLayout.setLayoutParams(params);
+//        bubbleLayout.setLayoutParams(params);
         bubbleLayout.addView(headerView);
         bubbleLayout.addView(bodyView);
         bubbleLayout.addView(footerView);

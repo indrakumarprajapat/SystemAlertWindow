@@ -87,7 +87,7 @@ class SystemAlertWindow {
       'footer': footer?.getMap(),
       'margin': margin?.getMap(),
       'gravity': Commons.getWindowGravity(gravity),
-      'width': width ?? Constants.MATCH_PARENT,
+      'width': width ?? 70,
       'height': height ?? Constants.WRAP_CONTENT
     };
     return await _channel.invokeMethod('showSystemWindow', [notificationTitle, notificationBody, params, Commons.getSystemWindowPrefMode(prefMode)]);
@@ -111,7 +111,7 @@ class SystemAlertWindow {
       'footer': footer?.getMap(),
       'margin': margin?.getMap(),
       'gravity': Commons.getWindowGravity(gravity),
-      'width': width ?? Constants.MATCH_PARENT,
+      'width': width ?? 70,
       'height': height ?? Constants.WRAP_CONTENT
     };
     return await _channel.invokeMethod('updateSystemWindow', [notificationTitle, notificationBody, params, Commons.getSystemWindowPrefMode(prefMode)]);
