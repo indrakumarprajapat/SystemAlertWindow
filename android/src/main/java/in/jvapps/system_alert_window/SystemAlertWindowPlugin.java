@@ -96,12 +96,7 @@ public class SystemAlertWindowPlugin extends Activity implements MethodCallHandl
                 }
                 break;
             case "checkPermissions":
-                arguments = (List) call.arguments;
-                prefMode = (String) arguments.get(0);
-                if (prefMode == null) {
-                    prefMode = "default";
-                }
-                if (checkPermission(!isBubbleMode(prefMode))) {
+                if (askPermission()) {
                     result.success(true);
                 } else {
                     result.success(false);
