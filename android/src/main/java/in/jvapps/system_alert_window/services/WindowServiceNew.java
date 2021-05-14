@@ -207,7 +207,7 @@ public class WindowServiceNew extends Service implements View.OnTouchListener {
         myImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = getPackageManager().getLaunchIntentForPackage("in.jvapps.system_alert_window_example");
+                Intent intent = getPackageManager().getLaunchIntentForPackage("in.boomcabs.operator");
                 if (intent != null) {
                     startActivity(intent);
                 }
