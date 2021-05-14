@@ -134,6 +134,11 @@ public class SystemAlertWindowPlugin extends Activity implements MethodCallHandl
                         Toast.makeText(mContext, "Please give draw over other apps permission", Toast.LENGTH_LONG).show();
                         result.success(false);
                     }
+                    result.success(true);
+                } else {
+                    askPermission();
+                    // Toast.makeText(mContext, "Please give draw over other apps permission", Toast.LENGTH_LONG).show();
+                    // result.success(false);
                 }
                 result.success(true);
                 break;
@@ -173,6 +178,11 @@ public class SystemAlertWindowPlugin extends Activity implements MethodCallHandl
                         Toast.makeText(mContext, "Please give draw over other apps permission", Toast.LENGTH_LONG).show();
                         result.success(false);
                     }
+                    result.success(true);
+                } else {
+                    askPermission();
+                    // Toast.makeText(mContext, "Please give draw over other apps permission", Toast.LENGTH_LONG).show();
+                    // result.success(false);
                 }
                 result.success(true);
                 break;
@@ -192,6 +202,10 @@ public class SystemAlertWindowPlugin extends Activity implements MethodCallHandl
                         mContext.startService(i);
                     }
                     result.success(true);
+                } else {
+                    askPermission();
+                    // Toast.makeText(mContext, "Please give draw over other apps permission", Toast.LENGTH_LONG).show();
+                    // result.success(false);
                 }
                 break;
             case "registerCallBackHandler":
