@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -64,7 +65,7 @@ public class WindowServiceNew extends Service implements View.OnTouchListener {
     private int windowHeight;
     private Margin windowMargin;
 
-    private LinearLayout windowView;
+    private RelativeLayout windowView;
     private LinearLayout headerView;
     private LinearLayout bodyView;
     private LinearLayout footerView;
@@ -176,9 +177,9 @@ public class WindowServiceNew extends Service implements View.OnTouchListener {
     private void setWindowView(WindowManager.LayoutParams params, boolean isCreate) {
         boolean isEnableDraggable = true;//params.width == WindowManager.LayoutParams.MATCH_PARENT;
         if (isCreate) {
-            windowView = new LinearLayout(mContext);
+            windowView = new RelativeLayout(mContext);
         }
-        windowView.setOrientation(LinearLayout.VERTICAL);
+//        windowView.setOrientation(LinearLayout.VERTICAL);
 //        windowView.setBackgroundColor(Color.RED);
 //        windowView.setLayoutParams(params);
         windowView.removeAllViews();
@@ -193,16 +194,20 @@ public class WindowServiceNew extends Service implements View.OnTouchListener {
         bodyView.setVisibility(View.GONE);
         footerView.setVisibility(View.GONE);
 
-        windowView.setLayoutParams(new LinearLayout.LayoutParams(70, 70));
-        ShapeableImageView myImage = new ShapeableImageView(this);
-        myImage.setImageResource(R.drawable.boomlogo);
+        RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+//        windowView.setLayoutParams(new LinearLayout.LayoutParams(70, 70));
+        windowView.setLayoutParams(rlp);
 
-        float radius = getResources().getDimension(R.dimen.corner_radius);
-        ShapeAppearanceModel shapeAppearanceModel =  myImage.getShapeAppearanceModel().toBuilder()
-                .setAllCornerSizes(radius)
-                .build();
-        myImage.setShapeAppearanceModel(shapeAppearanceModel);
+        ImageView myImage = new ImageView(this);
+        myImage.setBackgroundResource(R.drawable.boomlogoc);
         windowView.addView(myImage);
+
+        //Adding cross close icon
+        ImageView closeIconImage = new ImageView(this);
+        closeIconImage.setImageResource(R.drawable.iconclose);
+        windowView.addView(closeIconImage);
 
         myImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,6 +216,12 @@ public class WindowServiceNew extends Service implements View.OnTouchListener {
                 if (intent != null) {
                     startActivity(intent);
                 }
+            }
+        });
+        closeIconImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                closeWindow(true);
             }
         });
         myImage.setOnTouchListener(new View.OnTouchListener() {
