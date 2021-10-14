@@ -96,7 +96,7 @@ public class SystemAlertWindowPlugin extends Activity implements MethodCallHandl
                 }
                 break;
             case "checkPermissions":
-                if (askPermission()) {
+                if (askPermission(true)) {
                     result.success(true);
                 } else {
                     result.success(false);
@@ -135,21 +135,22 @@ public class SystemAlertWindowPlugin extends Activity implements MethodCallHandl
                         result.success(false);
                     }
                     result.success(true);
-                } else {
-                    askPermission();
-                    // Toast.makeText(mContext, "Please give draw over other apps permission", Toast.LENGTH_LONG).show();
-                    // result.success(false);
                 }
+//                else {
+//                    askPermission();
+//                    // Toast.makeText(mContext, "Please give draw over other apps permission", Toast.LENGTH_LONG).show();
+//                    // result.success(false);
+//                }
                 result.success(true);
                 break;
             case "updateSystemWindow":
-                if (checkPermission()) {
+                if (checkPermission(true)) {
                     assert (call.arguments != null);
                     List updateArguments = (List) call.arguments;
                     String updateTitle = (String) updateArguments.get(0);
                     String updateBody = (String) updateArguments.get(1);
                     HashMap<String, Object> updateParams = (HashMap<String, Object>) updateArguments.get(2);
-                    String prefMode = (String) updateArguments.get(3);
+                    prefMode = (String) updateArguments.get(3);
                     if(prefMode == null){
                         prefMode = "default";
                     }
@@ -167,6 +168,10 @@ public class SystemAlertWindowPlugin extends Activity implements MethodCallHandl
                 } else {
                     if (checkPermission(true)) {
                         Log.d(TAG, "Going to update System Alert Window");
+                        List updateArguments = (List) call.arguments;
+                        String updateTitle = (String) updateArguments.get(0);
+                        String updateBody = (String) updateArguments.get(1);
+                        HashMap<String, Object> updateParams = (HashMap<String, Object>) updateArguments.get(2);
                         final Intent i = new Intent(mContext, WindowServiceNew.class);
                         i.putExtra(INTENT_EXTRA_PARAMS_MAP, updateParams);
                         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -179,11 +184,12 @@ public class SystemAlertWindowPlugin extends Activity implements MethodCallHandl
                         result.success(false);
                     }
                     result.success(true);
-                } else {
-                    askPermission();
-                    // Toast.makeText(mContext, "Please give draw over other apps permission", Toast.LENGTH_LONG).show();
-                    // result.success(false);
                 }
+//                else {
+//                    askPermission();
+//                    // Toast.makeText(mContext, "Please give draw over other apps permission", Toast.LENGTH_LONG).show();
+//                    // result.success(false);
+//                }
                 result.success(true);
                 break;
             case "closeSystemWindow":
@@ -203,7 +209,7 @@ public class SystemAlertWindowPlugin extends Activity implements MethodCallHandl
                     }
                     result.success(true);
                 } else {
-                    askPermission();
+                    askPermission(true);
                     // Toast.makeText(mContext, "Please give draw over other apps permission", Toast.LENGTH_LONG).show();
                     // result.success(false);
                 }
